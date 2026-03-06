@@ -290,6 +290,13 @@ tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-
 .connot-chip.positive { background: #e8f5e9; border-color: #a5d6a7; color: #2E7B52; }
 .connot-chip.negative { background: #ffebee; border-color: #ef9a9a; color: #C9442A; }
 
+/* Mobility tab */
+.mob-stats { margin-top:4px; }
+.mob-row { display:flex; justify-content:space-between; font-size:0.73rem; padding:4px 0; border-bottom:1px solid var(--border); }
+.mob-row:last-child { border-bottom:none; }
+.mob-row span:first-child { color:var(--muted); }
+.mob-row strong { font-weight:600; }
+
 @media (max-width: 900px) {
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
   .chart-row { grid-template-columns: 1fr; }
@@ -314,6 +321,7 @@ tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-
       <button class="tab-btn" onclick="switchTab('districts', this)">Districts</button>
       <button class="tab-btn" onclick="switchTab('patterns', this)">Patterns</button>
       <button class="tab-btn" onclick="switchTab('signs', this)">Sign Browser</button>
+      <button class="tab-btn" onclick="switchTab('mobility', this)">Mobility Overlay</button>
       <button class="tab-btn" onclick="switchTab('export', this)">Export</button>
     </nav>
   </div>
@@ -437,6 +445,140 @@ tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-
   <div id="sign-row-detail" class="sign-detail-panel" style="margin-top:16px"></div>
 </div>
 
+<!-- ========== MOBILITY OVERLAY TAB ========== -->
+<div id="tab-mobility" class="tab-panel">
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:20px">
+    Opportunity Atlas data (Chetty et al.) for three Price Hill census tracts, overlaid against typography scores.
+    Assign each tract to a district to reveal correlations between the typographic landscape and mobility outcomes.
+  </p>
+
+  <!-- Tract cards -->
+  <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+    <div class="card" style="border-top:4px solid #C9442A">
+      <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px">Tract 93 · 39061009300</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:#C9442A;margin-bottom:12px">29.9<span style="font-size:0.9rem">th pctile</span></div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-bottom:2px">Upward Mobility (kfr p25)</div>
+      <div class="sbr-track" style="margin-bottom:10px"><div class="sbr-fill" style="width:29.9%;background:#C9442A"></div></div>
+      <div class="mob-stats">
+        <div class="mob-row"><span>Poverty rate (2010)</span><strong>31.0%</strong></div>
+        <div class="mob-row"><span>Median income (2022)</span><strong>$24,181</strong></div>
+        <div class="mob-row"><span>Incarceration (p25)</span><strong>5.66%</strong></div>
+        <div class="mob-row"><span>Single-parent HH</span><strong>73.4%</strong></div>
+        <div class="mob-row"><span>College degree</span><strong>8.3%</strong></div>
+        <div class="mob-row"><span>Economic connectedness</span><strong>0.50 <span style="color:var(--muted)">(ZIP 45204)</span></strong></div>
+        <div class="mob-row"><span>White mobility (kfr)</span><strong>32.4th pctile</strong></div>
+        <div class="mob-row"><span>Black mobility (kfr)</span><strong>22.5th pctile</strong></div>
+      </div>
+      <div style="margin-top:14px">
+        <div style="font-size:0.68rem;color:var(--muted);margin-bottom:4px">Assign to district:</div>
+        <select class="tract-assign" data-tract="93" onchange="updateMobilityCorrelation()" style="width:100%;font-size:0.78rem;padding:6px;border:1.5px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif">
+          <option value="">— select —</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card" style="border-top:4px solid #7A469E">
+      <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px">Tract 94 · 39061009400</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:#7A469E;margin-bottom:12px">30.4<span style="font-size:0.9rem">th pctile</span></div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-bottom:2px">Upward Mobility (kfr p25)</div>
+      <div class="sbr-track" style="margin-bottom:10px"><div class="sbr-fill" style="width:30.4%;background:#7A469E"></div></div>
+      <div class="mob-stats">
+        <div class="mob-row"><span>Poverty rate (2010)</span><strong style="color:#C9442A">53.3%</strong></div>
+        <div class="mob-row"><span>Median income (2022)</span><strong>$34,360</strong></div>
+        <div class="mob-row"><span>Incarceration (p25)</span><strong>2.56%</strong></div>
+        <div class="mob-row"><span>Single-parent HH</span><strong>65.0%</strong></div>
+        <div class="mob-row"><span>College degree</span><strong style="color:#C9442A">3.5%</strong></div>
+        <div class="mob-row"><span>Economic connectedness</span><strong style="color:#C9442A">0.40 <span style="color:var(--muted)">(ZIP 45205)</span></strong></div>
+        <div class="mob-row"><span>White mobility (kfr)</span><strong>31.8th pctile</strong></div>
+        <div class="mob-row"><span>Black mobility (kfr)</span><strong>26.5th pctile</strong></div>
+      </div>
+      <div style="margin-top:14px">
+        <div style="font-size:0.68rem;color:var(--muted);margin-bottom:4px">Assign to district:</div>
+        <select class="tract-assign" data-tract="94" onchange="updateMobilityCorrelation()" style="width:100%;font-size:0.78rem;padding:6px;border:1.5px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif">
+          <option value="">— select —</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card" style="border-top:4px solid #2E7B52">
+      <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px">Tract 95 · 39061009500</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:#2E7B52;margin-bottom:12px">34.3<span style="font-size:0.9rem">th pctile</span></div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-bottom:2px">Upward Mobility (kfr p25)</div>
+      <div class="sbr-track" style="margin-bottom:10px"><div class="sbr-fill" style="width:34.3%;background:#2E7B52"></div></div>
+      <div class="mob-stats">
+        <div class="mob-row"><span>Poverty rate (2010)</span><strong>41.0%</strong></div>
+        <div class="mob-row"><span>Median income (2022)</span><strong>$45,152</strong></div>
+        <div class="mob-row"><span>Incarceration (p25)</span><strong>3.00%</strong></div>
+        <div class="mob-row"><span>Single-parent HH</span><strong>75.6%</strong></div>
+        <div class="mob-row"><span>College degree</span><strong>11.0%</strong></div>
+        <div class="mob-row"><span>Economic connectedness</span><strong>0.69 <span style="color:var(--muted)">(ZIP 45238)</span></strong></div>
+        <div class="mob-row"><span>White mobility (kfr)</span><strong>37.0th pctile</strong></div>
+        <div class="mob-row"><span>Black mobility (kfr)</span><strong>29.2th pctile</strong></div>
+      </div>
+      <div style="margin-top:14px">
+        <div style="font-size:0.68rem;color:var(--muted);margin-bottom:4px">Assign to district:</div>
+        <select class="tract-assign" data-tract="95" onchange="updateMobilityCorrelation()" style="width:100%;font-size:0.78rem;padding:6px;border:1.5px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif">
+          <option value="">— select —</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Correlation panel (populates when tracts are assigned) -->
+  <div id="mobility-correlation" style="display:none">
+    <div class="chart-row">
+      <div class="chart-card">
+        <h3>Typography Score vs. Upward Mobility</h3>
+        <p class="chart-desc">First- and Second-Order scores plotted against kfr p25 (income rank at 35 for children with parents at p25 nationally). National average = 45th percentile.</p>
+        <div class="chart-wrap" style="height:300px"><canvas id="mobScatterChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Economic Connectedness vs. Second-Order</h3>
+        <p class="chart-desc">Social accessibility scores against ec_zip (economic connectedness). ec = 1.0 is national average; Hamilton County avg = 0.70.</p>
+        <div class="chart-wrap" style="height:300px"><canvas id="ecScatterChart"></canvas></div>
+      </div>
+    </div>
+    <div class="chart-card" style="margin-bottom:24px">
+      <h3>Racial Mobility Gap by District</h3>
+      <p class="chart-desc">White vs. Black upward mobility (kfr p25) for assigned tracts. The gap between groups within the same neighbourhood reveals place-based racial inequality.</p>
+      <div class="chart-wrap" style="height:220px"><canvas id="racialGapChart"></canvas></div>
+    </div>
+    <div id="mobility-interpretation" class="chart-card">
+      <h3>Interpretation</h3>
+      <div id="mob-interp-text" style="font-size:0.85rem;line-height:1.8;color:#333"></div>
+    </div>
+  </div>
+
+  <!-- Reference panel always visible -->
+  <div class="chart-card" style="margin-top:20px">
+    <h3>Chetty Mobility Framework — Reference</h3>
+    <p class="chart-desc" style="margin-bottom:12px">Key variables from Opportunity Insights and their relationship to typographic indexicality.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:0.8rem">
+      <div>
+        <div style="font-weight:600;margin-bottom:6px;color:var(--accent)">Mobility Predictors</div>
+        <div class="mob-row"><span>kfr p25</span><span>Income rank at 35 · proxied by 2nd-Order score (social openness)</span></div>
+        <div class="mob-row"><span>ec_zip</span><span>Economic connectedness · proxied by multilingual + cross-class genre mix</span></div>
+        <div class="mob-row"><span>Poverty rate</span><span>Material constraint · proxied by 1st-Order score</span></div>
+        <div class="mob-row"><span>Single-parent rate</span><span>Family stability · cross-referenced with welcome scores</span></div>
+      </div>
+      <div>
+        <div style="font-weight:600;margin-bottom:6px;color:var(--accent)">Your Typography Proxies</div>
+        <div class="mob-row"><span>First-Order score</span><span>Material investment → economic resource base</span></div>
+        <div class="mob-row"><span>Second-Order score</span><span>Social accessibility → cross-class exposure potential</span></div>
+        <div class="mob-row"><span>Linguistic diversity</span><span>Multilingual signs → social bridge-building</span></div>
+        <div class="mob-row"><span>Resilient Vernacular</span><span>High 2nd-Order despite low 1st → collective efficacy</span></div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px;background:#f5f0eb;border-radius:6px;font-size:0.78rem;line-height:1.6;color:#444">
+      <strong>Price Hill context:</strong> All three tracts sit 10–15 percentile points below the national upward mobility average (45th pctile).
+      Tract 94 is the most distressed: poverty rate doubled from 28% (2000) to 53% (2010), college attainment of only 3.5%,
+      and the lowest economic connectedness score (ec = 0.40) of any ZIP in the study area —
+      well below the Hamilton County average of 0.70. The racial mobility gap (White vs. Black kfr)
+      ranges from 3–7 percentile points within the same tracts.
+    </div>
+  </div>
+</div>
+
 <!-- ========== EXPORT TAB ========== -->
 <div id="tab-export" class="tab-panel">
   <div class="export-grid">
@@ -549,7 +691,32 @@ let filteredSigns = [...ALL_SIGNS];
 let selectedDistrict = DISTRICTS[0];
 let selectedPattern = null;
 let districtChartInstances = {};
-let tabsInitialized = { overview: false, districts: false, patterns: false, signs: false };
+let tabsInitialized = { overview: false, districts: false, patterns: false, signs: false, mobility: false };
+
+// Opportunity Atlas data for the three Price Hill tracts
+const TRACT_DATA = {
+  '93': {
+    label: 'Tract 93 (39061009300)',
+    kfr: 29.9, kfr_white: 32.4, kfr_black: 22.5,
+    jail: 5.66, poverty: 31.0, medIncome: 24181,
+    singleParent: 73.4, college: 8.3, ec: 0.50,
+    color: '#C9442A'
+  },
+  '94': {
+    label: 'Tract 94 (39061009400)',
+    kfr: 30.4, kfr_white: 31.8, kfr_black: 26.5,
+    jail: 2.56, poverty: 53.3, medIncome: 34360,
+    singleParent: 65.0, college: 3.5, ec: 0.40,
+    color: '#7A469E'
+  },
+  '95': {
+    label: 'Tract 95 (39061009500)',
+    kfr: 34.3, kfr_white: 37.0, kfr_black: 29.2,
+    jail: 3.00, poverty: 41.0, medIncome: 45152,
+    singleParent: 75.6, college: 11.0, ec: 0.69,
+    color: '#2E7B52'
+  }
+};
 
 // ============================================================
 // UTILITY
@@ -602,6 +769,10 @@ function switchTab(tabName, btn) {
   if (tabName === 'signs' && !tabsInitialized.signs) {
     initSignsTab();
     tabsInitialized.signs = true;
+  }
+  if (tabName === 'mobility' && !tabsInitialized.mobility) {
+    initMobilityTab();
+    tabsInitialized.mobility = true;
   }
 
   // Trigger resize for chart rendering
@@ -1255,6 +1426,185 @@ function exportCSV() {
   link.download = 'typography-indexicality-scores.csv';
   link.href = URL.createObjectURL(blob);
   link.click();
+}
+
+// ============================================================
+// MOBILITY TAB
+// ============================================================
+let mobScatterInst = null, ecScatterInst = null, racialGapInst = null;
+
+function initMobilityTab() {
+  // Populate district dropdowns
+  document.querySelectorAll('.tract-assign').forEach(sel => {
+    DISTRICTS.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d; opt.textContent = d;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function updateMobilityCorrelation() {
+  const assignments = {};
+  document.querySelectorAll('.tract-assign').forEach(sel => {
+    if (sel.value) assignments[sel.dataset.tract] = sel.value;
+  });
+
+  const assigned = Object.keys(assignments);
+  if (assigned.length === 0) {
+    document.getElementById('mobility-correlation').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('mobility-correlation').style.display = 'block';
+
+  // Build correlation data points
+  const points = assigned.map(tractId => {
+    const tract = TRACT_DATA[tractId];
+    const dist = assignments[tractId];
+    const summary = DISTRICT_SUMMARIES[dist];
+    return { tract, dist, summary, tractId };
+  });
+
+  // ---- Chart 1: FO & SO vs kfr ----
+  if (mobScatterInst) mobScatterInst.destroy();
+  const mobCtx = document.getElementById('mobScatterChart').getContext('2d');
+  mobScatterInst = new Chart(mobCtx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'First-Order vs Mobility',
+          data: points.map(p => ({ x: p.summary.avgFirstOrder, y: p.tract.kfr, tractId: p.tractId, dist: p.dist })),
+          backgroundColor: points.map(p => p.tract.color + 'bb'),
+          borderColor: points.map(p => p.tract.color),
+          borderWidth: 2, pointRadius: 10, pointHoverRadius: 13,
+          pointStyle: 'circle',
+        },
+        {
+          label: 'Second-Order vs Mobility',
+          data: points.map(p => ({ x: p.summary.avgSecondOrder, y: p.tract.kfr, tractId: p.tractId, dist: p.dist })),
+          backgroundColor: points.map(p => p.tract.color + '55'),
+          borderColor: points.map(p => p.tract.color),
+          borderWidth: 2, pointRadius: 10, pointHoverRadius: 13,
+          pointStyle: 'triangle',
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { min: 0, max: 100, title: { display: true, text: 'Typography Score (●=First-Order  ▲=Second-Order)', font: { family: 'DM Sans', size: 11 } } },
+        y: { min: 20, max: 50, title: { display: true, text: 'Upward Mobility — kfr p25 (national avg = 45)', font: { family: 'DM Sans', size: 11 } },
+              ticks: { callback: v => v + 'th' } },
+      },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 11 }, usePointStyle: true } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const d = ctx.raw;
+              return [${d.dist}, `Score: ${ctx.raw.x}`, `kfr p25: ${ctx.raw.y}th percentile`];
+            }
+          }, bodyFont: { family: 'DM Sans' }
+        },
+        annotation: {
+          annotations: {
+            natAvg: { type: 'line', yMin: 45, yMax: 45, borderColor: 'rgba(0,0,0,0.25)', borderWidth: 1.5, borderDash: [6,4],
+              label: { content: 'National avg (45th)', display: true, position: 'end', font: { size: 10, family: 'DM Sans' }, color: '#666', backgroundColor: 'transparent' } }
+          }
+        }
+      }
+    }
+  });
+
+  // ---- Chart 2: ec vs Second-Order ----
+  if (ecScatterInst) ecScatterInst.destroy();
+  const ecCtx = document.getElementById('ecScatterChart').getContext('2d');
+  ecScatterInst = new Chart(ecCtx, {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'Economic Connectedness vs 2nd-Order',
+        data: points.map(p => ({ x: p.summary.avgSecondOrder, y: p.tract.ec, tractId: p.tractId, dist: p.dist })),
+        backgroundColor: points.map(p => p.tract.color + 'bb'),
+        borderColor: points.map(p => p.tract.color),
+        borderWidth: 2, pointRadius: 10, pointHoverRadius: 13,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { min: 40, max: 80, title: { display: true, text: 'Second-Order Score (Social Accessibility)', font: { family: 'DM Sans', size: 11 } } },
+        y: { min: 0, max: 1.1, title: { display: true, text: 'Economic Connectedness (ec_zip)', font: { family: 'DM Sans', size: 11 } },
+              ticks: { stepSize: 0.2 } },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => [`${ctx.raw.dist}`, `2nd-Order: ${ctx.raw.x}`, `ec: ${ctx.raw.y}`] }, bodyFont: { family: 'DM Sans' } },
+        annotation: {
+          annotations: {
+            natAvgEc: { type: 'line', yMin: 1.0, yMax: 1.0, borderColor: 'rgba(0,0,0,0.2)', borderWidth: 1.5, borderDash: [6,4],
+              label: { content: 'National avg (1.0)', display: true, position: 'end', font: { size: 10, family: 'DM Sans' }, color: '#666', backgroundColor: 'transparent' } },
+            hamiltonAvgEc: { type: 'line', yMin: 0.70, yMax: 0.70, borderColor: 'rgba(139,94,60,0.4)', borderWidth: 1.5, borderDash: [4,4],
+              label: { content: 'Hamilton Co. avg (0.70)', display: true, position: 'end', font: { size: 10, family: 'DM Sans' }, color: '#8b5e3c', backgroundColor: 'transparent' } }
+          }
+        }
+      }
+    }
+  });
+
+  // ---- Chart 3: Racial mobility gap ----
+  if (racialGapInst) racialGapInst.destroy();
+  const rgCtx = document.getElementById('racialGapChart').getContext('2d');
+  const labels = points.map(p => p.tract.label.split(' ')[0] + ' ' + p.tract.label.split(' ')[1] + ' → ' + p.dist.replace('Warsaw Business District', 'WBD').replace('Warsaw Avenue Creative Campus','WACC'));
+  racialGapInst = new Chart(rgCtx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'White kfr p25', data: points.map(p => p.tract.kfr_white), backgroundColor: '#2B6EA8bb', borderColor: '#2B6EA8', borderWidth: 2 },
+        { label: 'Black kfr p25', data: points.map(p => p.tract.kfr_black), backgroundColor: '#C9442Abb', borderColor: '#C9442A', borderWidth: 2 },
+        { label: 'Overall kfr p25', data: points.map(p => p.tract.kfr), backgroundColor: '#888888bb', borderColor: '#888', borderWidth: 2 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false } },
+        y: { min: 15, max: 45, title: { display: true, text: 'Income rank at 35 (percentile)', font: { family: 'DM Sans', size: 11 } },
+              ticks: { callback: v => v + 'th' } }
+      },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 11 }, padding: 14 } },
+        annotation: {
+          annotations: {
+            natAvg: { type: 'line', yMin: 45, yMax: 45, borderColor: 'rgba(0,0,0,0.2)', borderWidth: 1.5, borderDash: [6,4] }
+          }
+        }
+      }
+    }
+  });
+
+  // ---- Interpretation ----
+  const interpLines = points.map(p => {
+    const t = p.tract, s = p.summary;
+    const efficacySignal = s.avgSecondOrder > 58 && s.avgFirstOrder < 50
+      ? '→ <strong>Resilient Vernacular pattern</strong>: the typographic landscape shows collective voice despite material constraint — consistent with Chetty's finding that social capital (ec) predicts mobility independently of income.'
+      : s.avgFirstOrder > 54 && s.avgSecondOrder > 58
+      ? '→ <strong>Inclusive Investment pattern</strong>: strong on both dimensions. Typographic signals suggest a district with both capital and social openness.'
+      : s.avgFirstOrder < 47 && s.avgSecondOrder < 52
+      ? '→ <strong>Compound Fragility pattern</strong>: low on both dimensions. Typographic landscape aligns with the tract's below-average mobility (kfr = ' + t.kfr + 'th pctile) and low economic connectedness (ec = ' + t.ec + ').'
+      : '→ <strong>Moderate pattern</strong>: mixed typographic signals in a tract with below-average mobility (kfr = ' + t.kfr + 'th pctile).';
+    return `<p style="margin-bottom:10px"><strong style="color:${t.color}">${t.label} → ${p.dist}</strong><br>
+      kfr p25: <strong>${t.kfr}th percentile</strong> · ec: <strong>${t.ec}</strong> · Poverty: <strong>${t.poverty}%</strong><br>
+      Typography: FO=${s.avgFirstOrder} · SO=${s.avgSecondOrder}<br>
+      Racial gap: White ${t.kfr_white}th vs Black ${t.kfr_black}th (Δ${(t.kfr_white - t.kfr_black).toFixed(1)} percentile points)<br>
+      ${efficacySignal}</p>`;
+  }).join('<hr style="margin:10px 0;border:none;border-top:1px solid var(--border)">');
+
+  document.getElementById('mob-interp-text').innerHTML = interpLines ||
+    '<p style="color:var(--muted)">Assign tracts to districts above to generate interpretation.</p>';
 }
 
 // ============================================================
