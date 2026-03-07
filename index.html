@@ -1301,7 +1301,7 @@ tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-
 
   </div>
   <div style="margin-top:8px;font-size:0.72rem;color:var(--muted)">
-    213 of 273 signs geocoded via Census Bureau batch API · 60 signs with unresolved addresses not shown · dots colored by Indexical Pattern
+    273 of 273 signs mapped · coordinates from Notion field data + Census Bureau reverse geocoding · dots colored by Indexical Pattern
   </div>
 </div>
 
@@ -2457,7 +2457,7 @@ function initMapTab() {
       </div>`;
   });
 
-  // Collect genres from geocoded signs only
+  // Collect genres from signs that have coordinates
   const geocoded = ALL_SIGNS.filter(s => s.lat != null && s.lng != null);
   const genreCount = {};
   geocoded.forEach(s => (s.genre || []).forEach(g => { genreCount[g] = (genreCount[g]||0)+1; }));
