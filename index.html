@@ -1531,7 +1531,7 @@ function updateMobilityCorrelation() {
           callbacks: {
             label: ctx => {
               const d = ctx.raw;
-              return [${d.dist}, `Score: ${ctx.raw.x}`, `kfr p25: ${ctx.raw.y}th percentile`];
+              return [`${d.dist}`, `Score: ${ctx.raw.x}`, `kfr p25: ${ctx.raw.y}th percentile`];
             }
           }, bodyFont: { family: 'DM Sans' }
         },
@@ -1617,11 +1617,11 @@ function updateMobilityCorrelation() {
   const interpLines = points.map(p => {
     const t = p.tract, s = p.summary;
     const efficacySignal = s.avgSecondOrder > 58 && s.avgFirstOrder < 50
-      ? '→ <strong>Resilient Vernacular pattern</strong>: the typographic landscape shows collective voice despite material constraint — consistent with Chetty's finding that social capital (ec) predicts mobility independently of income.'
+      ? '→ <strong>Resilient Vernacular pattern</strong>: the typographic landscape shows collective voice despite material constraint — consistent with Chetty&#39;s finding that social capital (ec) predicts mobility independently of income.'
       : s.avgFirstOrder > 54 && s.avgSecondOrder > 58
       ? '→ <strong>Inclusive Investment pattern</strong>: strong on both dimensions. Typographic signals suggest a district with both capital and social openness.'
       : s.avgFirstOrder < 47 && s.avgSecondOrder < 52
-      ? '→ <strong>Compound Fragility pattern</strong>: low on both dimensions. Typographic landscape aligns with the tract's below-average mobility (kfr = ' + t.kfr + 'th pctile) and low economic connectedness (ec = ' + t.ec + ').'
+      ? '→ <strong>Compound Fragility pattern</strong>: low on both dimensions. Typographic landscape aligns with this tract&#39;s below-average mobility (kfr = ' + t.kfr + 'th pctile) and low economic connectedness (ec = ' + t.ec + ').'
       : '→ <strong>Moderate pattern</strong>: mixed typographic signals in a tract with below-average mobility (kfr = ' + t.kfr + 'th pctile).';
     return `<p style="margin-bottom:10px"><strong style="color:${t.color}">${t.label} → ${p.dist}</strong><br>
       kfr p25: <strong>${t.kfr}th percentile</strong> · ec: <strong>${t.ec}</strong> · Poverty: <strong>${t.poverty}%</strong><br>
