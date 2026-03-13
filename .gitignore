@@ -1,0 +1,10 @@
+# Claude Code internals
+.claude/
+
+# Downloaded sign photos (regenerated at build time with NOTION_TOKEN)
+# To include in repo, remove this line and commit the images/ folder
+images/
+
+# Python
+__pycache__/
+*.pyc
